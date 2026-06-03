@@ -1,0 +1,227 @@
+{
+  "metadata": {
+    "generated_at": "2026-06-03T19:12:23.954589",
+    "symbol": "BSE",
+    "timeline": "30d",
+    "total_candles": 23
+  },
+  "stock_info": {
+    "symbol": "BSE",
+    "name": "BSE Limited",
+    "sector": "Financial Services",
+    "industry": "Financial Data & Stock Exchanges",
+    "current_price": 3966.1,
+    "previous_close": 3931.9,
+    "day_high": 4018.0,
+    "day_low": 3855.0,
+    "52_week_high": 4446.8,
+    "52_week_low": 2021.5,
+    "market_cap": 1610748657664,
+    "pe_ratio": 65.925865,
+    "avg_volume": 4429591
+  },
+  "price_summary": {
+    "current_price": 3966.1,
+    "period_start_price": 3711.3,
+    "period_high": 4446.8,
+    "period_low": 3673.0,
+    "price_change": 254.8,
+    "price_change_percentage": 6.87
+  },
+  "candles": [
+    {
+      "date": "2026-05-04",
+      "open": 3681.0,
+      "high": 3755.0,
+      "low": 3673.0,
+      "close": 3711.3,
+      "volume": 3764178
+    },
+    {
+      "date": "2026-05-05",
+      "open": 3712.0,
+      "high": 3790.0,
+      "low": 3691.0,
+      "close": 3726.2,
+      "volume": 3120952
+    },
+    {
+      "date": "2026-05-06",
+      "open": 3780.0,
+      "high": 3872.0,
+      "low": 3755.0,
+      "close": 3852.1,
+      "volume": 3772261
+    },
+    {
+      "date": "2026-05-07",
+      "open": 3887.0,
+      "high": 3985.0,
+      "low": 3864.9,
+      "close": 3963.6,
+      "volume": 4714160
+    },
+    {
+      "date": "2026-05-08",
+      "open": 3963.6,
+      "high": 3994.0,
+      "low": 3832.3,
+      "close": 3907.4,
+      "volume": 9146079
+    },
+    {
+      "date": "2026-05-11",
+      "open": 3891.0,
+      "high": 3945.0,
+      "low": 3845.2,
+      "close": 3918.0,
+      "volume": 4662297
+    },
+    {
+      "date": "2026-05-12",
+      "open": 3918.0,
+      "high": 3958.9,
+      "low": 3840.3,
+      "close": 3851.9,
+      "volume": 4056561
+    },
+    {
+      "date": "2026-05-13",
+      "open": 3852.5,
+      "high": 3918.0,
+      "low": 3847.2,
+      "close": 3888.8,
+      "volume": 3250454
+    },
+    {
+      "date": "2026-05-14",
+      "open": 3922.3,
+      "high": 4065.0,
+      "low": 3917.2,
+      "close": 4037.6,
+      "volume": 6138554
+    },
+    {
+      "date": "2026-05-15",
+      "open": 4065.1,
+      "high": 4084.0,
+      "low": 3971.1,
+      "close": 4000.6,
+      "volume": 4256007
+    },
+    {
+      "date": "2026-05-18",
+      "open": 3940.0,
+      "high": 4134.0,
+      "low": 3940.0,
+      "close": 4120.7,
+      "volume": 5053942
+    },
+    {
+      "date": "2026-05-19",
+      "open": 4155.4,
+      "high": 4298.9,
+      "low": 4119.0,
+      "close": 4190.8,
+      "volume": 7088657
+    },
+    {
+      "date": "2026-05-20",
+      "open": 4170.0,
+      "high": 4232.0,
+      "low": 4150.0,
+      "close": 4218.6,
+      "volume": 4697677
+    },
+    {
+      "date": "2026-05-21",
+      "open": 4270.0,
+      "high": 4293.8,
+      "low": 4153.2,
+      "close": 4186.9,
+      "volume": 3507063
+    },
+    {
+      "date": "2026-05-22",
+      "open": 4200.0,
+      "high": 4232.0,
+      "low": 4151.5,
+      "close": 4193.8,
+      "volume": 2489857
+    },
+    {
+      "date": "2026-05-25",
+      "open": 4250.0,
+      "high": 4303.0,
+      "low": 4215.0,
+      "close": 4291.2,
+      "volume": 2791628
+    },
+    {
+      "date": "2026-05-26",
+      "open": 4300.0,
+      "high": 4425.0,
+      "low": 4295.1,
+      "close": 4403.3,
+      "volume": 3782550
+    },
+    {
+      "date": "2026-05-27",
+      "open": 4437.0,
+      "high": 4446.8,
+      "low": 4236.1,
+      "close": 4248.4,
+      "volume": 4332377
+    },
+    {
+      "date": "2026-05-28",
+      "open": 4248.4,
+      "high": 4248.4,
+      "low": 4248.4,
+      "close": 4248.4,
+      "volume": 0
+    },
+    {
+      "date": "2026-05-29",
+      "open": 4250.0,
+      "high": 4256.0,
+      "low": 4127.9,
+      "close": 4146.1,
+      "volume": 4544243
+    },
+    {
+      "date": "2026-06-01",
+      "open": 4180.0,
+      "high": 4198.0,
+      "low": 4031.9,
+      "close": 4066.6,
+      "volume": 3556913
+    },
+    {
+      "date": "2026-06-02",
+      "open": 4020.0,
+      "high": 4045.0,
+      "low": 3875.6,
+      "close": 3931.9,
+      "volume": 5568609
+    },
+    {
+      "date": "2026-06-03",
+      "open": 3935.5,
+      "high": 4018.0,
+      "low": 3855.0,
+      "close": 3966.1,
+      "volume": 5057096
+    }
+  ],
+  "ai_analysis_prompt": {
+    "question": "Based on the 30d candlestick data for BSE Limited (BSE), please analyze:",
+    "requirements": [
+      "Is this suitable for swing trading or intraday trading?",
+      "What should be the recommended investment amount?",
+      "What should be the entry price (opening amount)?",
+      "What are the stop-loss and target levels?",
+      "What is the risk-reward ratio?"
+    ]
+  }
+}

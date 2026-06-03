@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Candle Fetcher</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 { 
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #667eea;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .autocomplete-dropdown.show {
+            display: block;
+        }
+        .autocomplete-item {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+        .autocomplete-item:hover {
+            background: #f8f9fa;
+        }
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        .autocomplete-symbol {
+            font-weight: 600;
+            color: #667eea;
+        }
+        .autocomplete-name {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .autocomplete-exchange {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+        .result.show { display: block; }
+        .result h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .stat:last-child { border-bottom: none; }
+        .stat-label { font-weight: 600; color: #666; }
+        .stat-value { color: #333; }
+        .download-btn {
+            margin-top: 20px;
+            background: #28a745;
+        }
+        .error {
+            color: #dc3545;
+            padding: 15px;
+            background: #f8d7da;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        .error.show { display: block; }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        .loader.show { display: block; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📈 Stock Candle Fetcher</h1>
+        
+        <form id="stockForm">
+            <div class="form-group">
+                <label for="symbol">Stock Symbol</label>
+                <input 
+                    type="text" 
+                    id="symbol" 
+                    placeholder="Start typing... (e.g., RELIANCE, TCS)" 
+                    autocomplete="off"
+                    required
+                >
+                <div class="autocomplete-dropdown" id="autocomplete"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="timeline">Timeline</label>
+                <select id="timeline" required>
+                    <option value="30d">30 Days</option>
+                    <option value="60d">60 Days</option>
+                    <option value="90d">90 Days</option>
+                </select>
+            </div>
+            
+            <button type="submit" id="submitBtn">Fetch Data</button>
+        </form>
+        
+        <div class="loader" id="loader"></div>
+        <div class="error" id="error"></div>
+        
+        <div class="result" id="result">
+            <h2 id="stockName"></h2>
+            <div class="stat">
+                <span class="stat-label">Symbol:</span>
+                <span class="stat-value" id="stockSymbol"></span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Sector:</span>
+                <span class="stat-value" id="stockSector"></span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Current Price:</span>
+                <span class="stat-value" id="currentPrice"></span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Period Change:</span>
+                <span class="stat-value" id="priceChange"></span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Period High:</span>
+                <span class="stat-value" id="periodHigh"></span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Period Low:</span>
+                <span class="stat-value" id="periodLow"></span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Total Candles:</span>
+                <span class="stat-value" id="totalCandles"></span>
+            </div>
+            
+            <button class="download-btn" id="downloadBtn">📥 Download JSON</button>
+        </div>
+    </div>
+
+    <script>
+        const symbolInput = document.getElementById('symbol');
+        const autocompleteDiv = document.getElementById('autocomplete');
+        const form = document.getElementById('stockForm');
+        const loader = document.getElementById('loader');
+        const error = document.getElementById('error');
+        const result = document.getElementById('result');
+        const submitBtn = document.getElementById('submitBtn');
+        let currentFilepath = '';
+        let debounceTimer;
+
+        // Autocomplete functionality
+        symbolInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            
+            clearTimeout(debounceTimer);
+            
+            if (query.length < 2) {
+                autocompleteDiv.classList.remove('show');
+                return;
+            }
+            
+            debounceTimer = setTimeout(async () => {
+                try {
+                    const response = await fetch(`/autocomplete?q=${encodeURIComponent(query)}`);
+                    const suggestions = await response.json();
+                    
+                    if (suggestions.length === 0) {
+                        autocompleteDiv.classList.remove('show');
+                        return;
+                    }
+                    
+                    autocompleteDiv.innerHTML = suggestions.map(item => `
+                        <div class="autocomplete-item" data-symbol="${item.symbol}">
+                            <div class="autocomplete-symbol">${item.symbol}</div>
+                            <div class="autocomplete-name">${item.name}</div>
+                            <div class="autocomplete-exchange">${item.exchange}</div>
+                        </div>
+                    `).join('');
+                    
+                    autocompleteDiv.classList.add('show');
+                    
+                    // Add click handlers
+                    document.querySelectorAll('.autocomplete-item').forEach(item => {
+                        item.addEventListener('click', () => {
+                            symbolInput.value = item.dataset.symbol;
+                            autocompleteDiv.classList.remove('show');
+                        });
+                    });
+                    
+                } catch (err) {
+                    console.error('Autocomplete error:', err);
+                }
+            }, 300);
+        });
+
+        // Close autocomplete when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!symbolInput.contains(e.target) && !autocompleteDiv.contains(e.target)) {
+                autocompleteDiv.classList.remove('show');
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const symbol = symbolInput.value.trim().toUpperCase();
+            const timeline = document.getElementById('timeline').value;
+            
+            // Reset UI
+            loader.classList.add('show');
+            error.classList.remove('show');
+            result.classList.remove('show');
+            submitBtn.disabled = true;
+            autocompleteDiv.classList.remove('show');
+            
+            try {
+                const response = await fetch('/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symbol, timeline })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to fetch data');
+                }
+                
+                // Display results
+                const stockData = data.data;
+                currentFilepath = data.filepath;
+                
+                document.getElementById('stockName').textContent = stockData.stock_info.name;
+                document.getElementById('stockSymbol').textContent = stockData.stock_info.symbol;
+                document.getElementById('stockSector').textContent = stockData.stock_info.sector;
+                document.getElementById('currentPrice').textContent = `₹${stockData.price_summary.current_price}`;
+                document.getElementById('priceChange').textContent = 
+                    `₹${stockData.price_summary.price_change} (${stockData.price_summary.price_change_percentage}%)`;
+                document.getElementById('periodHigh').textContent = `₹${stockData.price_summary.period_high}`;
+                document.getElementById('periodLow').textContent = `₹${stockData.price_summary.period_low}`;
+                document.getElementById('totalCandles').textContent = stockData.metadata.total_candles;
+                
+                result.classList.add('show');
+                
+            } catch (err) {
+                error.textContent = err.message;
+                error.classList.add('show');
+            } finally {
+                loader.classList.remove('show');
+                submitBtn.disabled = false;
+            }
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            if (currentFilepath) {
+                window.location.href = `/download/${encodeURIComponent(currentFilepath)}`;
+            }
+        });
+    </script>
+</body>
+</html>
