@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request, jsonify, send_file
-from search_engine import SearchEngine
-from stock_api import StockAPI
+import sys
 import os
 
-app = Flask(__name__)
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+from flask import Flask, render_template, request, jsonify, send_file
+from stock_api import StockAPI
+from search_engine import SearchEngine
+
+app = Flask(__name__, template_folder='../templates')
 engine = SearchEngine()
 
 @app.route('/')
@@ -37,7 +42,5 @@ def search():
 
 @app.route('/download/<path:filename>')
 def download(filename):
-    return send_file(filename, as_attachment=True)
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    filepath = os.path.join('..', filename)
+    return send_file(filepath, as_attachment=True)
